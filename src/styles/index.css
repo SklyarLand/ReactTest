@@ -1,6 +1,7 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
+    background-image: url(data:image/jpeg;base64,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);
   }
   
   ol, ul {
@@ -18,18 +19,18 @@ body {
   }
   
   .square {
-    background: #fff;
+    background: rgb(89, 216, 78);
     border: 1px solid #999;
     float: left;
-    font-size: 24px;
+    font-size: 48px;
     font-weight: bold;
     line-height: 34px;
-    height: 34px;
-    margin-right: -1px;
-    margin-top: -1px;
+    height: 60px;
+    margin: 10px;
+    border-radius: 5px;
     padding: 0;
     text-align: center;
-    width: 34px;
+    width: 60px;
   }
   
   .square:focus {
@@ -47,5 +48,24 @@ body {
   
   .game-info {
     margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: darkslategrey;
+    height: 200px;
+    color: #fff;
+    border-radius: 10px;
+  }
+
+  A{
+    color:white;
+  }
+  .anew{
+    margin-left: 20px;
+    margin-top: 10px;
+    width: 130px;
+    height: 40px;
+    border-radius: 4px;
   }
   

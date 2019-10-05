@@ -1,6 +1,7 @@
 import React from 'react';
 import Board from './board';
-import calculateWinner from './helpers/calculateWinner'
+import calculateWinner from './helpers/calculateWinner';
+import Anew from './anew-button';
 
 export default class Game extends React.Component{
     constructor(){
@@ -9,6 +10,7 @@ export default class Game extends React.Component{
         this.state = {
             xIsNext:true,
             stepNumber:0,
+            lastStep: 0,
             history: [{
                 squares:Array(9).fill(null)
             }]// в истории находится массив заполненный null
@@ -17,20 +19,33 @@ export default class Game extends React.Component{
     }
 
     handleClick(i){
-        const {xIsNext,history} = this.state;
+        const {xIsNext,history,lastStep} = this.state;
         const current = history[history.length - 1];//текущий ход
         const squares = current.squares.slice(); // создаем независимую копию массива квадратов
-
-        if(calculateWinner(squares||squares[i])){
+        if(calculateWinner(squares||squares[i])||lastStep!==history.length-1){
             return;}
+        if(Object.is(null,squares[i])){
+            squares[i] = xIsNext ? 'X' : 'O'; //маркируе  м квадрат крестиком или ноликом
 
-        squares[i] = xIsNext ? 'X' : 'O'; //маркируем квадрат крестиком или ноликом
+            this.setState({ //перерисовывает
+                xIsNext:!xIsNext,
+                stepNumber: ++this.state.stepNumber,
+                lastStep: ++this.state.lastStep,
+                history: history.concat([{squares}])
+            })
+        }
+    }
 
-        this.setState({ //перерисовывает
-            xIsNext:!xIsNext,
-            stepNumber: ++this.state.stepNumber,
-            history: history.concat([{squares}])
-        })
+    newGame(){
+        this.state = {
+            xIsNext:true,
+            stepNumber:0,
+            lastStep: 0,
+            history: [{
+                squares:Array(9).fill(null)
+            }]// в истории находится массив заполненный null
+        };
+        this.setState(this.state)
     }
 
     paintMoves(){
@@ -48,7 +63,7 @@ export default class Game extends React.Component{
     ToJump(step){
         this.setState({
             stepNumber: step,
-            xIsNext: (step%2) ? false : true
+            xIsNext: (step%2) ? false : true,        
         });
     }
 
@@ -65,7 +80,6 @@ export default class Game extends React.Component{
             status = 'Next Player is '+(xIsNext ? 'X' : 'O')
         }
 
-
         return(
             <div className='game'>
                 <div className='game-board'>
@@ -74,9 +88,12 @@ export default class Game extends React.Component{
                         onClick = {(i)=> this.handleClick(i)} 
                     />
                 </div>
-                <div className='game-info'>
-                    <div>{status}</div>
-                    <ul>{this.paintMoves()}</ul>
+                <div>
+                    <div className='game-info'>
+                        <div>{status}</div>
+                        <ul >{this.paintMoves()}</ul>
+                    </div>
+                    <Anew onClick = {()=>this.newGame()}/>
                 </div>
             </div>
         );
